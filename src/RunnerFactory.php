@@ -13,8 +13,7 @@ final class RunnerFactory
     {
         $config = $container->get('config')[Module::class];
 
-        $checks = $container->get(CheckCollectionInterface::class);
-
+        $checks = $container->has(CheckCollectionInterface::class) ? $container->get(CheckCollectionInterface::class) : null;
         $reporter = $container->has(ReporterInterface::class) ? $container->get(ReporterInterface::class) : null;
 
         return new Runner($config['config'], $checks, $reporter);

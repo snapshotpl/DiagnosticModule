@@ -1,6 +1,7 @@
 <?php
+
 return [
-    \Snapshotpl\DiagnosticModule\Module::class => [
+    Snapshotpl\DiagnosticModule\Module::class => [
         'config' => [],
         'reporters' => [
             Snapshotpl\DiagnosticModule\PsrLogReporter::class => [
@@ -10,15 +11,11 @@ return [
         ],
     ],
     'service_manager' => [
-        'services' => [
-            'empty_checks_list' => [],
-        ],
         'factories' => [
             ZendDiagnostics\Runner\Runner::class => Snapshotpl\DiagnosticModule\RunnerFactory::class,
-            Snapshotpl\DiagnosticModule\PsrLogReporter::class => \Snapshotpl\DiagnosticModule\PsrLogReporterFactory::class,
+            Snapshotpl\DiagnosticModule\PsrLogReporter::class => Snapshotpl\DiagnosticModule\PsrLogReporterFactory::class,
         ],
         'aliases' => [
-            ZendDiagnostics\Check\CheckCollectionInterface::class => 'empty_checks_list',
             ZendDiagnostics\Runner\Reporter\ReporterInterface::class => Snapshotpl\DiagnosticModule\PsrLogReporter::class,
         ],
     ],
