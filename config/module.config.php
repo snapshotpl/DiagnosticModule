@@ -16,7 +16,7 @@ return [
             Snapshotpl\DiagnosticModule\Reporter\PsrLogReporter::class => Snapshotpl\DiagnosticModule\Reporter\PsrLogReporterFactory::class,
         ],
         'aliases' => [
-            ZendDiagnostics\Runner\Reporter\ReporterInterface::class => Snapshotpl\DiagnosticModule\PsrLogReporter::class,
+            ZendDiagnostics\Runner\Reporter\ReporterInterface::class => Snapshotpl\DiagnosticModule\Reporter\PsrLogReporter::class,
         ],
     ],
 ];
