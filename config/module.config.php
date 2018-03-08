@@ -4,7 +4,7 @@ return [
     Snapshotpl\DiagnosticModule\Module::class => [
         'config' => [],
         'reporters' => [
-            Snapshotpl\DiagnosticModule\PsrLogReporter::class => [
+            Snapshotpl\DiagnosticModule\Reporter\PsrLogReporter::class => [
                 Psr\Log\LoggerInterface::class => Psr\Log\LoggerInterface::class,
                 'level' => Psr\Log\LogLevel::INFO,
             ],
