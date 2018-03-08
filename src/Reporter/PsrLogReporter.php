@@ -3,7 +3,9 @@
 namespace Snapshotpl\DiagnosticModule;
 
 use ArrayObject;
+use Exception;
 use Psr\Log\LoggerInterface;
+use SplObjectStorage;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection;
 use ZendDiagnostics\Result\ResultInterface;
@@ -33,13 +35,18 @@ final class PsrLogReporter implements ReporterInterface
 
     public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias = null)
     {
-        $this->checks[$check] = time() - $this->checks[$check];
+        if (isset($this->checks[$check])) {
+            $this->checks[$check] = time() - $this->checks[$check];
+            return;
+        }
+        throw new Exception('Check not started');
     }
 
     public function onFinish(Collection $results)
     {
         $checks = [];
         foreach ($this->checks as $check => $time) {
+            /* @var $check CheckInterface */
             $checks[] = [
                 'class' => get_class($check),
                 'label' => $check->getLabel(),
@@ -52,6 +59,7 @@ final class PsrLogReporter implements ReporterInterface
             'skip' => $results->getSkipCount(),
             'warning' => $results->getWarningCount(),
             'failure' => $results->getFailureCount(),
+            'checks_durations' => $checks,
         ]);
     }
 

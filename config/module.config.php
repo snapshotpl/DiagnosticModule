@@ -1,54 +1,25 @@
 <?php
 return [
-    'Snapshotpl' => [
-        'DiagnosticModule' => [
-            'config' => [],
-            'result_name_map' => [],
-            'checks' => [],
+    \Snapshotpl\DiagnosticModule\Module::class => [
+        'config' => [],
+        'reporters' => [
+            Snapshotpl\DiagnosticModule\PsrLogReporter::class => [
+                Psr\Log\LoggerInterface::class => Psr\Log\LoggerInterface::class,
+                'level' => Psr\Log\LogLevel::INFO,
+            ],
         ],
     ],
     'service_manager' => [
+        'services' => [
+            'empty_checks_list' => [],
+        ],
         'factories' => [
-            'Snapshotpl_DiagnosticModule_Checks_From_Config' => Snapshotpl\DiagnosticModule\ChecksFactory::class,
             ZendDiagnostics\Runner\Runner::class => Snapshotpl\DiagnosticModule\RunnerFactory::class,
+            Snapshotpl\DiagnosticModule\PsrLogReporter::class => \Snapshotpl\DiagnosticModule\PsrLogReporterFactory::class,
         ],
         'aliases' => [
-            ZendDiagnostics\Check\CheckCollectionInterface::class => 'Snapshotpl_DiagnosticModule_Checks_From_Config',
-        ],
-    ],
-    'controllers' => [
-        'factories' => [
-            Snapshotpl\DiagnosticModule\Controller\ConsoleListController::class => Snapshotpl\DiagnosticModule\Controller\ConsoleListControllerFactory::class,
-            Snapshotpl\DiagnosticModule\Controller\HtmlListController::class => Snapshotpl\DiagnosticModule\Controller\HtmlListControllerFactory::class,
-            Snapshotpl\DiagnosticModule\Controller\JsonListController::class => Snapshotpl\DiagnosticModule\Controller\JsonListControllerFactory::class,
-        ],
-    ],
-    'view_manager' => array(
-        'template_map' => array(
-            'zf-tool/diagnostics/run' => __DIR__ . '/../view/diagnostics/run.phtml',
-        )
-    ),
-    'router' => [
-        'routes' => [
-            'snapshotpl-diagnosticmodule-html' => [
-                'type' => 'Literal',
-                'options' => [
-                    'route' => '/diagnostics.html',
-                    'defaults' => ['controller' => Snapshotpl\DiagnosticModule\Controller\HtmlListController::class,
-                        'action' => 'run'
-                    ]
-                ]
-            ],
-            'snapshotpl-diagnosticmodule-json' => [
-                'type' => 'Literal',
-                'options' => [
-                    'route' => '/diagnostics.json',
-                    'defaults' => [
-                        'controller' => Snapshotpl\DiagnosticModule\Controller\HtmlListController::class,
-                        'action' => 'run',
-                    ],
-                ],
-            ],
+            ZendDiagnostics\Check\CheckCollectionInterface::class => 'empty_checks_list',
+            ZendDiagnostics\Runner\Reporter\ReporterInterface::class => Snapshotpl\DiagnosticModule\PsrLogReporter::class,
         ],
     ],
 ];
