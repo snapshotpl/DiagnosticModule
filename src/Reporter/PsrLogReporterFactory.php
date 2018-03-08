@@ -1,9 +1,11 @@
 <?php
 
-namespace Snapshotpl\DiagnosticModule;
+namespace Snapshotpl\DiagnosticModule\Reporter;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Snapshotpl\DiagnosticModule\Module;
+use Snapshotpl\DiagnosticModule\PsrLogReporter;
 
 final class PsrLogReporterFactory
 {

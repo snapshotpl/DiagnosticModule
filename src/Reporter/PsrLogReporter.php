@@ -1,6 +1,6 @@
 <?php
 
-namespace Snapshotpl\DiagnosticModule;
+namespace Snapshotpl\DiagnosticModule\Reporter;
 
 use ArrayObject;
 use Exception;
