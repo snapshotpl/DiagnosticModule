@@ -14,7 +14,8 @@ final class PsrLogReporterFactory
 
         $logger = $container->get($config[LoggerInterface::class]);
         $level = $config['level'];
+        $timeProvider = $container->get(TimeProvider::class);
 
-        return new PsrLogReporter($logger, $level);
+        return new PsrLogReporter($logger, $level, $timeProvider);
     }
 }
