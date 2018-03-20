@@ -2,7 +2,7 @@
 
 namespace Snapshotpl\DiagnosticModule;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use ZendDiagnostics\Check\CheckCollectionInterface;
 use ZendDiagnostics\Runner\Reporter\ReporterInterface;
 use ZendDiagnostics\Runner\Runner;
