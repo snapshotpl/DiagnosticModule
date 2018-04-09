@@ -68,4 +68,44 @@ class PsrLogReporterTest extends TestCase
 
         $reporter->onFinish($collection);
     }
+
+    public function testLogSmallTimeAfterRun()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->willReturnCallback(function($level, $message, $context) {
+            $this->assertSame(LogLevel::INFO, $level);
+            $this->assertSame([
+                'success' => 1,
+                'skip' => 0,
+                'warning' => 0,
+                'failure' => 0,
+                'details' => [
+                    'Check label' => [
+                        'class' => 'Mock_Implementation',
+                        'result' => 'ZendDiagnostics\Result\Success',
+                        'message' => 'Result message',
+                        'data' => 'Result data',
+                        'time' => 0.0,
+                    ],
+                ],
+            ], $context);
+        });
+
+        $timeProvider = new MockTimeProvider(['before run time' => 0, 'after run time' => 2.0027160644531e-5]);
+
+        $reporter = new PsrLogReporter($logger, LogLevel::INFO, $timeProvider);
+
+        $successResult = new Success('Result message', 'Result data');
+
+        $check = $this->getMockBuilder(CheckInterface::class)->setMockClassName('Mock_Implementation')->getMock();
+        $check->method('getLabel')->willReturn('Check label');
+
+        $reporter->onBeforeRun($check);
+        $reporter->onAfterRun($check, $successResult);
+
+        $collection = new Collection();
+        $collection[$check] = $successResult;
+
+        $reporter->onFinish($collection);
+    }
 }

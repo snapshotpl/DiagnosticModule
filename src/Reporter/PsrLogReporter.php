@@ -42,7 +42,7 @@ final class PsrLogReporter implements ReporterInterface
     {
         if (isset($this->checks[$check])) {
             $data = $this->checks[$check];
-            $data['time'] = $this->timeProvider->getNow() - $this->checks[$check]['time'];
+            $data['time'] = round($this->timeProvider->getNow() - $this->checks[$check]['time'], 4);
             $data['result'] = $result;
 
             $this->checks[$check] = $data;
